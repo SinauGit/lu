@@ -1,0 +1,47 @@
+<odoo>
+  <data>
+
+    <record id="paperformat_half_a4_do" model="report.paperformat">
+      <field name="name">Half A4 Delivery Order</field>
+      <field name="default" eval="True"/>
+      <field name="format">custom</field>
+      <field name="page_height">210</field>
+      <field name="page_width">148</field>
+      <field name="orientation">Landscape</field>
+      <field name="margin_top">8</field>
+      <field name="margin_bottom">36</field>
+      <field name="margin_left">3</field>
+      <field name="margin_right">3</field>
+      <field name="header_line" eval="False"/>
+      <field name="header_spacing">3</field>
+      <field name="dpi">85</field>
+    </record>
+
+<record id="custom_paperformat_f4_half" model="report.paperformat">
+    <field name="name">F4 Half</field>
+    <field name="format">custom</field>
+    <field name="page_width">210</field>  <!-- Width: 215mm -->
+    <field name="page_height">165</field>  <!-- Height: 165mm -->
+    <field name="margin_top">10</field>    <!-- Set appropriate margins -->
+    <field name="margin_bottom">10</field>
+    <field name="margin_left">10</field>
+    <field name="margin_right">10</field>
+    <field name="dpi">90</field> <!-- Lower DPI if needed to reduce rendering issues -->
+    <field name="header_spacing">10</field> <!-- Ensure enough space for the header -->
+</record>
+
+<record id="paperformat_purchase_order" model="report.paperformat">
+    <field name="name">Purchase Order Format</field>
+    <field name="format">A4</field>
+    <field name="orientation">Portrait</field>
+    <field name="margin_top">40</field>
+    <field name="margin_bottom">45</field>
+    <field name="margin_left">7</field>
+    <field name="margin_right">7</field>
+    <field name="header_line" eval="False"/>
+    <field name="header_spacing">35</field>
+    <field name="dpi">90</field>
+</record>
+
+  </data>
+</odoo>

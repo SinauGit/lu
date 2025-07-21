@@ -1,0 +1,570 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="report_customer_invoice_dp">
+        <t t-call="web.html_container">
+            <t t-call="web.basic_layout">
+                <t t-foreach="docs" t-as="o">
+                    <div class="page">
+                        <table width="100%" class="special-table table-borderless">
+                            <style>
+                            table, th, td {
+                                // border: 1px solid;
+                                font-size: 12px;
+                            }
+                            ml-5 {
+                                margin-left: 5px
+                            }
+                            .special-table, .special-table th, .special-table td {
+                                padding: 5px;
+                            }
+                            </style>
+                            <tr>
+                                <td width="2%" rowspan="8">
+                                    <img t-if="o.company_id.logo" t-att-src="image_data_uri(o.company_id.logo)" style="height: 80px; width: 80px;" alt="Logo" />
+                                </td>
+                                <td style="font-size: 11px; width:1%"></td>
+                                <td width="50%">
+                                    <table class="custom-table table-borderless" style="width:100%; font-size: 11px; margin-bottom: 10px;">
+                                        <tr>
+                                            <td style="font-size: 15px;">
+                                                <strong>
+                                                    <t t-esc="o.company_id.partner_id.name" />
+                                                </strong>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <t t-esc="o.company_id.partner_id.street" />
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <t t-esc="o.company_id.partner_id.street2" />
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <t t-esc="o.company_id.partner_id.city" />
+                                                <t t-esc="' ' + o.company_id.partner_id.zip" />
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                            NPWP :
+                                                <t t-esc="o.company_id.partner_id.vat"/>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                            Ph. :
+                                                <t t-esc="o.company_id.partner_id.phone"/>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                    <style>
+                                    .custom-table, .custom-table td {
+                                        padding : 0px;
+                                    }
+                                    </style>
+                                </td>
+                                <td width="50%">
+                                    <table style="width:100%;">
+                                        <tr >
+                                            <td colspan="3" style="font-size: 15px; text-align:center;font-weight:bold;background-color:#d9d9d9; vertical-align: baseline;">INVOICE</td>
+                                        </tr>
+                                        <tr >
+                                            <td style="font-size: 11px; width:25%">Date</td>
+                                            <td style="font-size: 11px; width:5%">:</td>
+                                            <td style="font-size: 11px; width:70%">
+                                                <t t-esc="o.date.strftime('%d %B %Y')"/>
+                                            </td>
+                                            <td>
+                                                <br/>
+                                            </td>
+                                        </tr>
+                                        <tr >
+                                            <td style="font-size: 11px; width:25%">Invoice No.</td>
+                                            <td style="font-size: 11px; width:5%">:</td>
+                                            <td style="font-size: 11px; width:70%">
+                                                <t t-esc="o.name"/>
+                                            </td>
+                                            <td>
+                                                <br/>
+                                            </td>
+                                        </tr>
+                                        <tr >
+                                            <td style="font-size: 11px; width:30%">Sales Order</td>
+                                            <td style="font-size: 11px; width:5%">:</td>
+                                            <td style="font-size: 11px; width:70%">
+                                                <t t-esc="o.invoice_line_ids.mapped('sale_line_ids.order_id.name')[0] if o.invoice_line_ids.mapped('sale_line_ids.order_id.name') else ''"/>
+                                            </td>
+                                            <td>
+                                                <br/>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </td>
+                            </tr>
+                        </table>
+                        <table class="table-borderless" style="left: 0; width: 100%; margin-top:10px;">
+                            <style>
+                            .doble-table, .doble-table td {
+                                padding : 2px;
+                            }
+                            </style>
+                            <tr>
+                                <td width="50%">
+                                    <table style="width:100%;height:70px;">
+                                        <tr style="background-color:#d9d9d9">
+                                            <td class="doble-table" style="width:25%;height:10%;border-top: 1px solid black;border-left: 1px solid black;border-bottom: 1px solid black; font-size: 11px; padding-left:5px;"><strong>Bill To</strong></td>
+                                            <td style="width:5%;border-top: 1px solid black;border-bottom: 1px solid black; font-size: 11px;">:</td>
+                                            <td style="width:70%;border-top: 1px solid black;border-bottom: 1px solid black;border-right: 1px solid black; font-size: 11px;">
+                
+                                            </td>
+                                        </tr>
+                                    <tr>
+                                        <td style="font-size: 11px; width:25%;height:10%;border-left: 1px solid black;"></td>
+                                        <td style="font-size: 11px; width:5%;"></td>
+                                        <td style="font-size: 11px; width:70%;border-right: 1px solid black;">
+                                            <strong>
+                                                <t t-esc="o.partner_id.name_get()[0][1]"/>
+                                            </strong>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="font-size: 11px; width:25%;height:80%;border-left: 1px solid black; padding-left:5px;">Address</td>
+                                        <td style="font-size: 11px; width:5%">:</td>
+                                        <td style="font-size: 11px; width:70%;border-right: 1px solid black">
+                                            <t t-if="o.partner_id">
+                            
+                                                <t t-if="o.partner_id.street">
+                                                    <t t-esc="o.partner_id.street"/>
+                                                    <br></br>
+                                                </t>
+                                                <t t-if="o.partner_id.street2">
+                                                    <t t-esc="o.partner_id.street2"/>
+                                                    <br></br>
+                                                </t>
+                                                <t t-esc="o.partner_id.city"/>
+                                                <t t-if="o.partner_id.state_id">
+                                                ,
+                                                    <t t-esc="o.partner_id.state_id.name"/>
+                                                </t>
+                                                <t t-if="o.partner_id.zip">
+                                                ,
+                                                    <t t-esc="o.partner_id.zip"/>
+                                                </t>
+                                            </t>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="font-size: 11px; width:25%;height:10%;border-left: 1px solid black;border-bottom: 1px solid black; padding-left:5px;">NPWP</td>
+                                        <td style="font-size: 11px; width:5%;border-bottom: 1px solid black">:</td>
+                                        <td style="font-size: 11px; width:70%;border-right: 1px solid black;border-bottom: 1px solid black">
+                                            <t t-esc="o.partner_id.vat_custom"/>
+                                        </td>
+                                    </tr>
+                                </table>
+                                </td>
+                                <td width="7%"></td>
+                                <td width="50%">
+                                    <!-- <table style="width:100%;height:70px">
+                                        <tr style="background-color:#d9d9d9;">
+                                            <td class="doble-table" style="font-size: 11px; width:25%;height:10%;border-top: 1px solid black;border-left: 1px solid black;border-bottom: 1px solid black; padding-left:5px;"><strong>Ship To</strong></td>
+                                            <td style="font-size: 11px; width:5%;border-top: 1px solid black;border-bottom: 1px solid black">:</td>
+                                            <td style="font-size: 11px; width:70%;border-top: 1px solid black;border-right: 1px solid black;border-bottom: 1px solid black">
+                         
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td style="font-size: 11px; width:25%;height:10%;border-left: 1px solid black;"></td>
+                                            <td style="font-size: 11px; width:5%;"></td>
+                                            <td style="font-size: 11px; width:70%;border-right: 1px solid black;">
+                                                <t t-if="o.invoice_line_ids.mapped('sale_line_ids').mapped('order_id').mapped('picking_ids').filtered(lambda x: x.state != 'cancel').partner_id">
+                                                    <strong>
+                                                        <t t-esc="o.invoice_line_ids.mapped('sale_line_ids').mapped('order_id').mapped('picking_ids').filtered(lambda x: x.state != 'cancel').partner_id[0].name_get()[0][1]"/>
+                                                    </strong>
+                                                </t>
+                                            </td>
+                                        </tr>
+                                        <tr style="font-size: 11px; border: 1px solid black; border-top: 0px;">
+                                            <td style="font-size: 11px; width:25%;height:100%; padding-left:5px;">Address</td>
+                                            <td style="font-size: 11px; width:5%">:</td>
+                                            <td style="font-size: 11px; width:70%">
+                                                <t t-if="o.invoice_line_ids.mapped('sale_line_ids').mapped('order_id').mapped('picking_ids').filtered(lambda x: x.state != 'cancel').partner_id">
+                                                    <div t-field="o.invoice_line_ids.mapped('sale_line_ids').mapped('order_id').mapped('picking_ids').filtered(lambda x: x.state != 'cancel').partner_id" t-options='{"widget": "contact", "fields": ["address"], "no_marker": True, "phone_icons": True}' name="partner_address"/>
+                                                    
+                                                </t>
+                                            </td>
+                                        </tr>
+                                    </table> -->
+                                </td>
+                            </tr>
+                        </table>
+                        <table style="margin-top:20px" class="table table-bordered table-sm">
+                            <tr style="background-color:#d9d9d9;">
+                                <td style="vertical-align: baseline; border: 1px solid black;">
+                                    <center style="font-size: 11px;">PO/SO/SPK Number</center>
+                                </td>
+                                <td style="vertical-align: baseline; border: 1px solid black;">
+                                    <center style="font-size: 11px;">Sales Person</center>
+                                </td>
+                                <td style="vertical-align: baseline; border: 1px solid black;">
+                                    <center style="font-size: 11px;">Delivery Date</center>
+                                </td>
+                                <td style="vertical-align: baseline; border: 1px solid black;">
+                                    <center style="font-size: 11px;">Terms</center>
+                                </td>
+                                <td style="vertical-align: baseline; border: 1px solid black;">
+                                    <center style="font-size: 11px;">Due Date</center>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="font-size: 11px; border: 1px solid black; height: 15px;text-align:center">
+                                    <t t-esc="o.invoice_line_ids.mapped('sale_line_ids.order_id.client_order_ref')[0] if o.invoice_line_ids.mapped('sale_line_ids.order_id.client_order_ref') else ''"/>
+                                </td>
+                                <td style="font-size: 11px; border: 1px solid black; height: 15px;text-align:center">
+                                    <t t-esc="o.invoice_line_ids.mapped('sale_line_ids.order_id.user_id.name')[0] if o.invoice_line_ids.mapped('sale_line_ids.order_id.user_id.name') else ''"/>
+                                </td>
+                                <td style="font-size: 11px; border: 1px solid black; height: 15px;text-align:center">
+                                    <t t-set="do" t-value="o.invoice_line_ids.mapped('sale_line_ids').mapped('order_id').mapped('picking_ids').filtered(lambda x: x.state != 'cancel')"/>
+                                    <t t-if="do">
+                                        <t t-esc="do.scheduled_date.strftime('%d %B %Y')"/>
+                                    </t>
+
+                                    <!-- <t t-esc="o.invoice_line_ids.mapped('move_id')[0] if o.invoice_line_ids.mapped('move_id') else ''"/> -->
+                                    <!-- <t t-esc="o.scheduled_date"/> -->
+                                </td>
+                                <td style="font-size: 11px; border: 1px solid black; height: 15px;text-align:center">
+                                    <t t-if="o.invoice_payment_term_id">
+                                        <t t-esc="o.invoice_payment_term_id.name"/>
+                                    </t>
+                                </td>
+                                <td style="font-size: 11px; border: 1px solid black; height: 15px;text-align:center">
+                                    <t t-esc="o.invoice_date_due.strftime('%d %B %Y')"/>
+                                </td>
+                            </tr>
+                        </table>
+                        <table class="table-borderless table-sm" width="100%">
+                            <tr>
+                                <td style="border: 1px solid black;vertical-align:middle" rowspan="2">
+                                    <center style="font-size: 11px;">
+                                        <span >No.</span>
+                                    </center>
+                                </td>
+                                <td style="border: 1px solid black;vertical-align:middle" rowspan="2">
+                                    <center style="font-size: 11px;">
+                                        <span>PN/ FRU/ Type Model</span>
+                                    </center>
+                                </td>
+                                <td style="border: 1px solid black;vertical-align:middle" rowspan="2">
+                                    <center style="font-size: 11px;">
+                                        <span>Description</span>
+                                    </center>
+                                </td>
+                                <td style="border: 1px solid black;vertical-align:middle" rowspan="2">
+                                    <center style="font-size: 11px;">
+                                        <span>Qty</span>
+                                    </center>
+                                </td>
+                                <td style="border: 1px solid black;vertical-align:middle" rowspan="2">
+                                    <center style="font-size: 11px;">
+                                        <span>UoM</span>
+                                    </center>
+                                </td>
+                                <td style="border: 1px solid black">
+                                    <center style="font-size: 11px;">
+                                        <span style="vertical-align: baseline;">Price per Unit</span>
+                                    </center>
+                                </td>
+                                <td style="border: 1px solid black">
+                                    <center style="font-size: 11px;">
+                                        <span style="vertical-align: baseline;">Total Price</span>
+                                    </center>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="vertical-align: baseline; border: 1px solid black">
+                                    <center style="font-size: 11px;">(RP)</center>
+                                </td>
+                                <td style="vertical-align: baseline; border: 1px solid black">
+                                    <center style="font-size: 11px;">(RP)</center>
+                                </td>
+                            </tr>
+                            <t t-set="no" t-value="1"/>
+                            <t t-set="first_invoice_line" t-value="o.invoice_line_ids.filtered(lambda l: l.display_type == 'product')[0]"/>
+                            <t t-set="so_products" t-value="o.invoice_line_ids.mapped('sale_line_ids.order_id.order_line').filtered(lambda l: l.product_id and l.product_id.default_code)"/>
+                            
+                            <tr>
+                                <td style="font-size: 11px; border: 1px solid black;text-align:center" width="4">
+                                    <t style="font-size: 11px;" t-esc="no"/>
+                                </td>
+                                <td style="font-size: 11px; border: 1px solid black" width="14">
+                                    <t style="font-size: 11px;" t-esc="first_invoice_line.product_id.default_code"/>
+                                </td>
+                                <td style="font-size: 11px; border: 1px solid black; font-weight: bold;" width="42%">
+                                    <strong>
+                                        <t t-esc="first_invoice_line.name"/>
+                                    </strong>
+                                </td>
+                                <td style="font-size: 11px; border: 1px solid black;text-align:center" width="2">
+                                </td>
+                                <!-- <td style="font-size: 11px; border: 1px solid black;text-align:center" width="2">
+                                    <t t-if="first_invoice_line.product_uom_id">
+                                        <t t-esc="first_invoice_line.product_uom_id.name"/>
+                                    </t>
+                                </td> -->
+                                <td style="font-size: 11px; border: 1px solid black;text-align:right" width="17">
+                                    <t t-esc="o.currency_id.symbol"/>
+                                    <t style="font-size: 11px;" t-esc="'{:,}'.format(int(first_invoice_line.price_unit))"/>
+                                </td>
+                                <td style="font-size: 11px; border: 1px solid black;text-align:right" width="17">
+                                    <t t-esc="o.currency_id.symbol"/>
+                                    <t style="font-size: 11px;" t-esc="'{:,}'.format(int(first_invoice_line.price_subtotal))"/>
+                                </td>
+                            </tr>
+                            
+                            <t t-foreach="o.invoice_line_ids.filtered(lambda l: l.display_type == 'line_note')" t-as="note_line">
+                                <tr>
+                                    <td style="font-size: 11px; border: 1px solid black;text-align:center" width="4">
+                                    </td>
+                                    <td style="font-size: 11px; border: 1px solid black" width="14%">
+                                    </td>
+                                    <td colspan="5" style="font-size: 11px; border: 1px solid black; font-style: italic;" width="42%">
+                                        <t t-esc="note_line.name"/>
+                                    </td>
+                                </tr>
+                            </t>
+                            
+                            <t t-foreach="so_products" t-as="so_line">
+                                <t t-set="no" t-value="no + 1" />
+                                <tr>
+                                    <td style="font-size: 11px; border: 1px solid black;text-align:center" width="4">
+                                        <t style="font-size: 11px;" t-esc="no"/>
+                                    </td>
+                                    <td style="font-size: 11px; border: 1px solid black" width="14%">
+                                        <t style="font-size: 11px;" t-esc="so_line.product_id.default_code"/>
+                                    </td>
+                                    <td style="font-size: 11px; border: 1px solid black; font-weight: bold;" width="42%">
+                                        <strong>
+                                            <t t-esc="so_line.name"/>
+                                        </strong>
+                                    </td>
+                                    <td style="font-size: 11px; border: 1px solid black;text-align:center" width="2">
+                                        <t style="font-size: 11px;" t-esc="int(so_line.product_uom_qty)"/>
+                                    </td>
+                                    <td style="font-size: 11px; border: 1px solid black;text-align:center" width="2">
+                                        <t t-if="so_line.product_uom">
+                                            <t t-esc="so_line.product_uom.name"/>
+                                        </t>
+                                    </td>
+                                    <td style="font-size: 11px; border: 1px solid black;text-align:right" width="17">
+                                    </td>
+                                    <td style="font-size: 11px; border: 1px solid black;text-align:right" width="17">
+                                    </td>
+                                </tr>
+                            </t>
+                        </table>
+                        <table style="left:0; width:100%" class="subtotal-table table-borderless">
+                            <style>
+                            .subtotal-table, .subtotal-table td {
+                                padding : 3px;
+                            }
+                            </style>
+                            <tr>
+                                <td width="70%">
+                                    <table style="width:100%;">
+                                        <tr>
+                                            <td style="font-size: 11px;">Bank Details : (Full Amount)</td>
+                                            <td>
+                                                <br/>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td style="font-size: 11px;">
+                                                <strong><t t-esc="o.partner_bank_id.acc_holder_name"/></strong>
+                                            </td>
+                                            <td>
+                                                <br/>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td style="font-size: 11px;">
+                                                <t t-esc="o.partner_bank_id.bank_id.name"/>
+                                            </td>
+                                            <td>
+                                                <br/>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td style="font-size: 11px;">
+                                                <t t-esc="o.partner_bank_id.bank_id.street"/>
+                                            </td>
+                                            <td>
+                                                <br/>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td style="font-size: 11px;">
+                                                A/C: <t t-esc="o.partner_bank_id.acc_number"/>
+                                                (<t t-esc="o.partner_bank_id.currency_id.name"/>)
+                                            </td>
+                                            <td>
+                                                <br/>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </td>
+                                <td width="40%">
+                                    <table style="width:100%;">
+                                        <tr>
+                                            <td style="font-size: 11px; width:30%">Sub total</td>
+                                            <td style="font-size: 11px; width:80%;text-align:right;">
+                                                <t t-esc="o.currency_id.symbol"/>
+                                                <t t-esc="'{:,}'.format(int(o.amount_untaxed))"/>
+                                            </td>
+                                            <td>
+                                                <br/>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td style="font-size: 11px; width:40%">DPP Nilai Lain</td>
+                                            <td style="font-size: 11px; width:80%;text-align:right;">
+                                                <t t-esc="o.currency_id.symbol"/>
+                                                <t t-esc="'{:,}'.format(int(o.tax_base_amount))"/>
+                                            </td>
+                                            <td>
+                                                <br/>
+                                            </td>
+                                        </tr>
+                                        <t t-set="tr" t-value="3"/>
+                                        <t t-foreach="o.tax_totals.get('groups_by_subtotal').get('Untaxed Amount')" t-as="tax_line">
+                                            <tr>
+                                                <!-- <td colspan="4"></td> -->
+                                                <td style="font-size: 11px;">
+                                                    <span>
+                                                        <t t-esc="tax_line.get('tax_group_name')"/>
+                                                    </span>
+                                                </td>
+                                                <td style="font-size: 11px;text-align:right">
+                                                    <t t-esc="o.currency_id.symbol"/>
+                                                    <t t-esc="'{:,}'.format(int(tax_line.get('tax_group_amount')))"/>
+
+                                                </td>
+                                            </tr>
+                                            <t t-set="tr" t-value="tr+1"/>
+                                        </t>
+                                        <!-- <tr>
+                                                <td style="font-size: 11px;">Tax 11%</td>
+                                                <td style="font-size: 11px; border-bottom:1px solid black">
+                                                    <t t-esc="'{:,}'.format(int(o.amount_tax))"/>
+                                                </td>
+                                                <td>
+                                                    <br/>
+                                                </td>
+                                            </tr> -->
+                                        <tr>
+                                            <td style="font-size: 11px;">Total</td>
+                                            <td style="font-size: 11px; border-bottom:1px solid black;border-top:1px solid black; text-align:right">
+                                                <t t-esc="o.currency_id.symbol"/>
+                                                <t t-esc="'{:,}'.format(int(o.amount_total))"/>
+                                            </td>
+                                            <td>
+                                                <br/>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </td>
+                            </tr>
+                        </table>
+                        <div style="width:100%">
+                            <table class="table-borderless">
+                                <tr>
+                                    <td>
+                                        <br/>
+                                        <br/>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                        <table style="left: 0; width: 100%" class="table-borderless">
+                            <tr>
+                                <td width="80%">
+                                    <style>
+                                        .table-notes, .table-notes td {
+                                            padding : 1px;
+                                        }
+                                    </style>
+                                    <table class="table-notes">
+                                        <tr>
+                                            <td style="font-size: 10px;">Notes and Terms :</td>
+                                        </tr>
+                                        <tr>
+                                            <td style="font-size: 10px; padding-top: 1px;">* Payment by cheque should be crossed and made payable to "PT.LINTANG UTAMA INFOTEK".</td>
+                                        </tr>
+                                        <tr>
+                                            <td style="font-size: 10px; padding-top: 1px;">* Penalty at the rate of 3% per month will be charged on overdue account.</td>
+                                        </tr>
+                                        <tr>
+                                            <td style="font-size: 10px; padding-top: 1px;">* For each customer data change request in invoice, ( Name, NPWP &amp; Address ) -</td>
+                                        </tr>
+                                        <tr>
+                                            <td style="font-size: 10px; padding-top: 1px;"> can only be served within maximum period of 1(one) month from receipt of invoice</td>
+                                        </tr>
+                                        <tr>
+                                            <td style="font-size: 10px; padding-top: 1px;"> and attach a copy of NPWP referred to</td>
+                                        </tr>
+                                    </table>
+                                </td>
+                                <td class="10%"></td>
+                                <td width="40%">
+                                    <table class="d-flex align-items-center justify-content-center">
+                                        <tr>
+                                            <td style="font-size: 11px; text-align:center">
+                                                Hormat Kami,
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td style="height: 110px;"></td>
+                                        </tr>
+                                        <tr>
+                                            <td style="font-size: 11px; text-align:center">
+                                                ( Dery Sofyan )
+                                            </td>
+                                        </tr>
+                                        <!-- <tr>
+                                            <td style="font-size: 11px; text-align:center">
+                                                <t t-esc="o.env.company.director_id.name"/>
+                                            </td>
+                                        </tr> -->
+                                    </table>
+                                </td>
+                            </tr>
+                        </table>
+                        <table style="width:100%;" class="table-borderless text-center">
+                            <tr>
+                                <td style="text-align:center; font-size: 15px;">
+                                    <strong>Thank you for your bussiness !</strong>
+                                </td>
+                            </tr>
+                        </table>
+                        <hr color="black" style="border: 2px solid black;"/>
+                        <table width="60%" class="table-borderless">
+                            <tr>
+                                <td style="font-size: 11px;">White</td>
+                                <td style="font-size: 11px;"> : </td>
+                                <td style="font-size: 11px;">fn-Customer, </td>
+                                <td style="font-size: 11px;">Red</td>
+                                <td style="font-size: 11px;"> : </td>
+                                <td style="font-size: 11px;">Accounting, </td>
+                                <td style="font-size: 11px;">Yellow</td>
+                                <td style="font-size: 11px;"> : </td>
+                                <td style="font-size: 11px;">Marketing Adm</td>
+                            </tr>
+                        </table>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+</odoo>
