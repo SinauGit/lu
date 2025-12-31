@@ -2,13 +2,13 @@
 <odoo>
     <data>
 
-        <record id="action_report_general_ledger" model="ir.actions.report">
+        <!-- <record id="action_report_general_ledger" model="ir.actions.report">
             <field name="name">General Ledger</field>
             <field name="model">account.report.general.ledger</field>
             <field name="report_type">qweb-pdf</field>
             <field name="report_name">accounting_pdf_reports.report_general_ledger</field>
             <field name="report_file">accounting_pdf_reports.report_general_ledger</field>
-        </record>
+        </record> -->
 
         <record id="action_report_partnerledger" model="ir.actions.report">
             <field name="name">Partner Ledger</field>

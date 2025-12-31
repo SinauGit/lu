@@ -19,7 +19,7 @@
     'demo': [],
     'data': [
         'security/ir.model.access.csv',
-        'views/om_daily_reports.xml',
+        # 'views/om_daily_reports.xml',
         'wizard/daybook.xml',
         'wizard/cashbook.xml',
         'wizard/bankbook.xml',
