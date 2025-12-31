@@ -328,7 +328,7 @@
                                     </center>
                                 </td>
                                 <td class="br" style="padding-left: 5px;">
-                                    <t t-esc="line.product_id.default_code" />
+                                    <t t-esc="line.product_id.default_code.replace('\u2011', '-').replace('\u200b', '')"/>
                                 </td>
                                 <td class="br" style="padding-left: 5px;">
                                     <t t-esc="line.name" />
