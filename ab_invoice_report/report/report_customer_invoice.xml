@@ -229,7 +229,7 @@
                             <td style="font-size: 11px; border: 1px solid black; height: 15px;text-align:center">
                                 <t t-set="do" t-value="o.invoice_line_ids.mapped('sale_line_ids').mapped('order_id').mapped('picking_ids').filtered(lambda x: x.state != 'cancel')"/>
                                 <t t-if="do">
-                                    <t t-esc="do.scheduled_date.strftime('%d %B %Y')"/>
+                                    <t t-esc="do.date_done.strftime('%d %B %Y')"/>
                                 </t>
 
                                 <!-- <t t-esc="o.invoice_line_ids.mapped('move_id')[0] if o.invoice_line_ids.mapped('move_id') else ''"/> -->
