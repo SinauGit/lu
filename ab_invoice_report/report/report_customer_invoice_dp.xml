@@ -303,9 +303,7 @@
                                     <t style="font-size: 11px;" t-esc="first_invoice_line.product_id.default_code"/>
                                 </td>
                                 <td style="font-size: 11px; border: 1px solid black; font-weight: bold;" width="42%">
-                                    <strong>
                                         <t t-esc="first_invoice_line.name"/>
-                                    </strong>
                                 </td>
                                 <td style="font-size: 11px; border: 1px solid black;text-align:center" width="2">
                                 </td>
@@ -346,9 +344,7 @@
                                         <t style="font-size: 11px;" t-esc="so_line.product_id.default_code"/>
                                     </td>
                                     <td style="font-size: 11px; border: 1px solid black; font-weight: bold;" width="42%">
-                                        <strong>
                                             <t t-esc="so_line.name"/>
-                                        </strong>
                                     </td>
                                     <td style="font-size: 11px; border: 1px solid black;text-align:center" width="2">
                                         <t style="font-size: 11px;" t-esc="int(so_line.product_uom_qty)"/>
@@ -513,6 +509,15 @@
                                         </tr>
                                         <tr>
                                             <td style="font-size: 10px; padding-top: 1px;"> and attach a copy of NPWP referred to</td>
+                                        </tr>
+                                      <tr>
+                                            <td style="font-size: 10px; padding-top: 1px;">* Service billing is subject to PPh Article 23 (2%) under Regulation No. 141/PMK.03/2015.</td>
+                                        </tr>
+                                      <tr>
+                                            <td style="font-size: 10px; padding-top: 1px;">Any withholding will remain outstanding until the PPh 23 withholding slip is received.</td>
+                                        </tr>
+                                      <tr>
+                                            <td style="font-size: 10px; padding-top: 1px;">The slip must be submitted within 2 months from the invoice date.</td>
                                         </tr>
                                     </table>
                                 </td>
