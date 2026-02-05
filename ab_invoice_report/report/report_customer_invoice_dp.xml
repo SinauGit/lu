@@ -307,11 +307,11 @@
                                 </td>
                                 <td style="font-size: 11px; border: 1px solid black;text-align:center" width="2">
                                 </td>
-                                <!-- <td style="font-size: 11px; border: 1px solid black;text-align:center" width="2">
+                                <td style="font-size: 11px; border: 1px solid black;text-align:center" width="2">
                                     <t t-if="first_invoice_line.product_uom_id">
                                         <t t-esc="first_invoice_line.product_uom_id.name"/>
                                     </t>
-                                </td> -->
+                                </td>
                                 <td style="font-size: 11px; border: 1px solid black;text-align:right" width="17">
                                     <t t-esc="o.currency_id.symbol"/>
                                     <t style="font-size: 11px;" t-esc="'{:,}'.format(int(first_invoice_line.price_unit))"/>
@@ -350,9 +350,6 @@
                                         <t style="font-size: 11px;" t-esc="int(so_line.product_uom_qty)"/>
                                     </td>
                                     <td style="font-size: 11px; border: 1px solid black;text-align:center" width="2">
-                                        <t t-if="so_line.product_uom">
-                                            <t t-esc="so_line.product_uom.name"/>
-                                        </t>
                                     </td>
                                     <td style="font-size: 11px; border: 1px solid black;text-align:right" width="17">
                                     </td>
