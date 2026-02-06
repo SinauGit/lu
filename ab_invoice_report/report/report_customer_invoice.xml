@@ -226,15 +226,21 @@
                             <td style="font-size: 11px; border: 1px solid black; height: 15px;text-align:center">
                                 <t t-esc="o.invoice_line_ids.mapped('sale_line_ids.order_id.user_id.name')[0] if o.invoice_line_ids.mapped('sale_line_ids.order_id.user_id.name') else ''"/>
                             </td>
-                            <td style="font-size: 11px; border: 1px solid black; height: 15px;text-align:center">
-                                <t t-set="do" t-value="o.invoice_line_ids.mapped('sale_line_ids').mapped('order_id').mapped('picking_ids').filtered(lambda x: x.state != 'cancel')"/>
-                                <t t-if="do">
-                                    <t t-esc="do.date_done.strftime('%d %B %Y')"/>
-                                </t>
-
-                                <!-- <t t-esc="o.invoice_line_ids.mapped('move_id')[0] if o.invoice_line_ids.mapped('move_id') else ''"/> -->
-                                <!-- <t t-esc="o.scheduled_date"/> -->
-                            </td>
+                                <td style="font-size: 11px; border: 1px solid black; height: 15px;text-align:center">
+                                    <!-- KODE YANG SUDAH DIMODIFIKASI: Menggunakan scheduled_date dari DO, jika kosong fallback ke commitment_date dari SO -->
+                                    <t t-set="do" t-value="o.invoice_line_ids.mapped('sale_line_ids').mapped('order_id').mapped('picking_ids').filtered(lambda x: x.state != 'cancel')"/>
+                                    <t t-set="so" t-value="o.invoice_line_ids.mapped('sale_line_ids.order_id')"/>
+                                    
+                                    <!-- Prioritas 1: Ambil scheduled_date dari Delivery Order jika ada -->
+                                    <t t-if="do and do.date_done">
+                                        <t t-esc="do.date_done.strftime('%d %B %Y')"/>
+                                    </t>
+                                    <!-- Prioritas 2: Jika scheduled_date kosong, ambil commitment_date dari Sales Order -->
+                                    <t t-elif="so and so[0].commitment_date">
+                                        <t t-esc="so[0].commitment_date.strftime('%d %B %Y')"/>
+                                    </t>
+                                    <!-- Jika keduanya kosong, tidak menampilkan apa-apa -->
+                                </td>
                             <td style="font-size: 11px; border: 1px solid black; height: 15px;text-align:center">
                                 <t t-if="o.invoice_payment_term_id">
                                     <t t-esc="o.invoice_payment_term_id.name"/>

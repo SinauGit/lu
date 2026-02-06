@@ -228,12 +228,14 @@
                                 </td>
                                 <td style="font-size: 11px; border: 1px solid black; height: 15px;text-align:center">
                                     <t t-set="do" t-value="o.invoice_line_ids.mapped('sale_line_ids').mapped('order_id').mapped('picking_ids').filtered(lambda x: x.state != 'cancel')"/>
-                                    <t t-if="do">
+                                    <t t-set="so" t-value="o.invoice_line_ids.mapped('sale_line_ids.order_id')"/>
+                                    
+                                    <t t-if="do and do.date_done">
                                         <t t-esc="do.date_done.strftime('%d %B %Y')"/>
                                     </t>
-
-                                    <!-- <t t-esc="o.invoice_line_ids.mapped('move_id')[0] if o.invoice_line_ids.mapped('move_id') else ''"/> -->
-                                    <!-- <t t-esc="o.scheduled_date"/> -->
+                                    <t t-elif="so and so[0].commitment_date">
+                                        <t t-esc="so[0].commitment_date.strftime('%d %B %Y')"/>
+                                    </t>
                                 </td>
                                 <td style="font-size: 11px; border: 1px solid black; height: 15px;text-align:center">
                                     <t t-if="o.invoice_payment_term_id">
