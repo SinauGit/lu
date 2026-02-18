@@ -25,37 +25,10 @@ class AccountMove(models.Model):
 
     custom_sequence = fields.Char(string='Custom Sequence')
 
-    # @api.model
-    # def create(self, vals):
-    #     if vals.get('name', '/') == '/':
-    #         vals['name'] = self.env['ir.sequence'].next_by_code('account.move.sequence') or '/'
-    #     return super(AccountMove, self).create(vals)
-    
     @api.model
     def create(self, vals):
         if vals.get('name', '/') == '/':
             journal = self.env['account.journal'].browse(vals.get('journal_id'))
-            if journal.type == 'sale':
-                sequence = self.env['ir.sequence'].sudo().search([('code', '=', 'account.move.sequence')], limit=1)
-                today = datetime.now()
-                current_year = today.year
-                # current_year = 2025
-                sequence_code = 'account.move.sequence'
-                sequence_number = sequence.next_by_code(sequence_code) or '/'
-                existing_sequence = sequence.search([('code', '=', sequence_code)])
-                if existing_sequence:
-                    if existing_sequence.suffix:
-                        # Check if the suffix contains '%(year)s' format
-                        if '%(year)s' in existing_sequence.suffix:
-                            # Get the last sequence number and its year
-                            last_sequence_year = int(sequence_number.split('/')[-1])
-                            # If the last sequence year is different from the current year, reset the sequence number
-                            if last_sequence_year != current_year:
-                                sequence.write({'number_next_actual': 1,
-                                                # 'suffix': '/LUI-WH/2025',
-                                                })
-                                sequence_number = sequence.next_by_code(sequence_code) or '/'
-                vals['name'] = sequence_number
             if journal.type == 'cash':
                 sequence = self.env['ir.sequence'].sudo().search([('code', '=', 'cash.sequence')], limit=1)
                 today = datetime.now()
@@ -70,14 +43,17 @@ class AccountMove(models.Model):
                         # Check if the prefix contains '%(year)s' format
                         # if str(nilai) in existing_sequence.prefix.split('/')[-1]:
                             # Get the last sequence number and its year
-                            last_sequence_year = int(sequence_number.split('/')[-1])
-                            # If the last sequence year is different from the current year, reset the sequence number
-                            if int(existing_sequence.prefix.split('/')[-1]) != nilai:
-                                sequence.write({'number_next_actual': 1,
-                                                'prefix': f"""{journal.code}/{nilai}"""
-                                                # 'suffix': '/LUI-WH/2025',
-                                                })
-                                sequence_number = sequence.next_by_code(sequence_code) or '/'
+                            # MINIMAL FIX: filter parts kosong sebelum ambil [-1]
+                            parts = [p for p in sequence_number.split('/') if p.strip()]
+                            if parts:
+                                last_sequence_year = int(parts[-1])
+                                # If the last sequence year is different from the current year, reset the sequence number
+                                if int(existing_sequence.prefix.split('/')[-1]) != nilai:
+                                    sequence.write({'number_next_actual': 1,
+                                                    'prefix': f"""{journal.code}/{nilai}"""
+                                                    # 'suffix': '/LUI-WH/2025',
+                                                    })
+                                    sequence_number = sequence.next_by_code(sequence_code) or '/'
                 sequence.write({'prefix': f"""{journal.code}/{nilai}"""})
                 vals['name'] = sequence_number
                 vals['name'] = sequence_number
@@ -95,14 +71,17 @@ class AccountMove(models.Model):
                         # Check if the prefix contains '%(year)s' format
                         # if str(nilai) in existing_sequence.prefix.split('/')[-1]:
                             # Get the last sequence number and its year
-                            last_sequence_year = int(sequence_number.split('/')[-1])
-                            # If the last sequence year is different from the current year, reset the sequence number
-                            if int(existing_sequence.prefix.split('/')[-1]) != nilai:
-                                sequence.write({'number_next_actual': 1,
-                                                'prefix': f"""{journal.code}/{nilai}"""
-                                                # 'suffix': '/LUI-WH/2025',
-                                                })
-                                sequence_number = sequence.next_by_code(sequence_code) or '/'
+                            # MINIMAL FIX: filter parts kosong sebelum ambil [-1]
+                            parts = [p for p in sequence_number.split('/') if p.strip()]
+                            if parts:
+                                last_sequence_year = int(parts[-1])
+                                # If the last sequence year is different from the current year, reset the sequence number
+                                if int(existing_sequence.prefix.split('/')[-1]) != nilai:
+                                    sequence.write({'number_next_actual': 1,
+                                                    'prefix': f"""{journal.code}/{nilai}"""
+                                                    # 'suffix': '/LUI-WH/2025',
+                                                    })
+                                    sequence_number = sequence.next_by_code(sequence_code) or '/'
                 sequence.write({'prefix': f"""{journal.code}/{nilai}"""})
                 vals['name'] = sequence_number
         return super(AccountMove, self).create(vals)

@@ -239,7 +239,7 @@
                                     <t t-elif="so and so[0].commitment_date">
                                         <t t-esc="so[0].commitment_date.strftime('%d %B %Y')"/>
                                     </t>
-                                    <!-- Jika keduanya kosong, tidak menampilkan apa-apa -->
+
                                 </td>
                             <td style="font-size: 11px; border: 1px solid black; height: 15px;text-align:center">
                                 <t t-if="o.invoice_payment_term_id">
